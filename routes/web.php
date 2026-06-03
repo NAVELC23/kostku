@@ -10,6 +10,7 @@ Route::get('/', function () { return view('welcome'); });
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // Bryant, Theofilus, dll tambahkan route masing-masing di sini
+    Route::resource('kamar', KamarController::class);
 });
 
 // Route penghuni — hanya bisa diakses role:penghuni
