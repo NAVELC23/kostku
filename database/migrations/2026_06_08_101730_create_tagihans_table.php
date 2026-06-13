@@ -16,7 +16,7 @@ return new class extends Migration
         
         // 1. Relasi ke tabel 'penghunis' milik Frensen (Tipe data Big Integer & Foreign Key)
         // Pastikan nama tabelnya di database Frensen adalah 'penghunis'
-        $table->foreignId('id_penghuni')->constrained('penghunis')->onDelete('cascade');
+        $table->foreign('id_penghuni')->references('id_penghuni')->on('penghunis')->onDelete('cascade');
         
         // 2. Kolom untuk mencatat bulan tagihan (Contoh: "Juni 2026")
         $table->string('bulan');
