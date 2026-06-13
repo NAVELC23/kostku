@@ -6,6 +6,7 @@ use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\KamarController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PerbaikanController;
 
 // Route publik
 Route::get('/', function () {
@@ -29,12 +30,21 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('kamar', KamarController::class);
     Route::resource('penghuni', PenghuniController::class);
     Route::resource('tagihan', TagihanController::class);
+
+    Route::get('perbaikan', [PerbaikanController::class, 'index'])->name('perbaikan.index');
+    Route::get('perbaikan/{id}/edit', [PerbaikanController::class, 'edit'])->name('perbaikan.edit');
+    Route::put('perbaikan/{id}', [PerbaikanController::class, 'update'])->name('perbaikan.update');
+    Route::delete('perbaikan/{id}', [PerbaikanController::class, 'destroy'])->name('perbaikan.destroy');
 });
 
 // Route penghuni — hanya role:penghuni
 Route::middleware(['auth', 'role:penghuni'])->prefix('penghuni')->name('penghuni.')->group(function () {
     Route::get('/dashboard', [PenghuniController::class, 'dashboard'])->name('dashboard');
     Route::get('/tagihan', [TagihanController::class, 'indexPenghuni'])->name('tagihan.index');
+
+    Route::get('perbaikan', [PerbaikanController::class, 'indexPenghuni'])->name('perbaikan.index');
+    Route::get('perbaikan/create', [PerbaikanController::class, 'create'])->name('perbaikan.create');
+    Route::post('perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
 });
 
 require __DIR__.'/auth.php';
