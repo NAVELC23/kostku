@@ -10,10 +10,18 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
+                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('penghuni.dashboard')">
                         {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('penghuni.tagihan.index')" :active="request()->routeIs('penghuni.tagihan.*')">
+                        {{ __('Tagihan') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('penghuni.perbaikan.index')" :active="request()->routeIs('penghuni.perbaikan.*')">
+                        {{ __('Perbaikan') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -67,8 +75,16 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('penghuni.dashboard')">
                 {{ __('Dashboard') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('penghuni.tagihan.index')" :active="request()->routeIs('penghuni.tagihan.*')">
+                {{ __('Tagihan') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('penghuni.perbaikan.index')" :active="request()->routeIs('penghuni.perbaikan.*')">
+                {{ __('Perbaikan') }}
             </x-responsive-nav-link>
         </div>
 
