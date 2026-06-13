@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void {
     Schema::create('tagihans', function (Blueprint $table) {
         $table->id();
+        $table->unsignedBigInteger('id_penghuni');
         
         // 1. Relasi ke tabel 'penghunis' milik Frensen (Tipe data Big Integer & Foreign Key)
         // Pastikan nama tabelnya di database Frensen adalah 'penghunis'
