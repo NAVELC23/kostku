@@ -46,6 +46,11 @@ class KamarController extends Controller
         $kamar = Kamar::findOrFail($id);
         return view('admin.kamar.edit', compact('kamar'));
     }
+        public function publik()
+    {
+        $kamars = \App\Models\Kamar::all();
+        return view('kamar-publik', compact('kamars'));
+    }
 
     public function update(Request $request, $id)
     {
