@@ -11,17 +11,16 @@ class Tagihan extends Model
 
     protected $table = 'tagihans';
 
-    // Disesuaikan dengan kolom di migration kamu
     protected $fillable = [
-        'user_id',
+        'id_penghuni',
         'bulan',
         'nominal_tagihan',
-        'status',
+        'status_bayar',
     ];
 
-    // Relasi langsung ke data User/Akun Penghuni
-    public function user()
+    // Relasi ke data Penghuni (bukan User langsung)
+    public function penghuni()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Penghuni::class, 'id_penghuni', 'id_penghuni');
     }
 }

@@ -7,7 +7,7 @@
         .title { text-align: center; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { bg-color: #16a34a; color: white; }
+        th { background-color: #16a34a; color: white; }
         .text-right { text-align: right; }
     </style>
 </head>
@@ -28,10 +28,10 @@
         <tbody>
             @foreach($tagihans as $tagihan)
             <tr>
-                <td>{{ $tagihan->user->name ?? 'N/A' }}</td>
+                <td>{{ $tagihan->penghuni->user->name ?? 'N/A' }}</td>
                 <td>{{ $tagihan->bulan }}</td>
                 <td>Rp {{ number_format($tagihan->nominal_tagihan, 0, ',', '.') }}</td>
-                <td>{{ $tagihan->status }}</td>
+                <td>{{ $tagihan->status_bayar }}</td>
             </tr>
             @endforeach
         </tbody>

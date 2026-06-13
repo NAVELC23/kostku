@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto py-6 px-4">
-    
+
     @if(session('success'))
         <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-700 rounded shadow">
             {{ session('success') }}
@@ -37,7 +37,7 @@
                     @forelse($tagihans as $tagihan)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {{ $tagihan->user->name ?? 'User Tidak Ditemukan' }}
+                                {{ $tagihan->penghuni->user->name ?? 'Penghuni Tidak Ditemukan' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {{ $tagihan->bulan }}
@@ -46,7 +46,7 @@
                                 Rp {{ number_format($tagihan->nominal_tagihan, 0, ',', '.') }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                @if($tagihan->status == 'Lunas')
+                                @if($tagihan->status_bayar == 'Lunas')
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
                                         Lunas
                                     </span>

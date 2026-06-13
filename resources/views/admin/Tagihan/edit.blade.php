@@ -4,17 +4,17 @@
 <div class="container mx-auto py-6 px-4 max-w-xl">
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
         <h3 class="text-lg font-bold text-gray-700 mb-6">Edit Data Tagihan</h3>
-        
+
         <form action="{{ route('admin.tagihan.update', $tagihan->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="mb-4">
-                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Penghuni Kos</label>
-                <select name="user_id" id="user_id" class="w-full rounded-md shadow-sm border-gray-300 bg-gray-100 focus:border-green-500 focus:ring" required>
-                    @foreach($users as $user)
-                        <option value="{{ $user->id }}" {{ $tagihan->user_id == $user->id ? 'selected' : '' }}>
-                            {{ $user->name }} ({{ $user->email }})
+                <label for="id_penghuni" class="block text-sm font-medium text-gray-700 mb-1">Penghuni Kos</label>
+                <select name="id_penghuni" id="id_penghuni" class="w-full rounded-md shadow-sm border-gray-300 bg-gray-100 focus:border-green-500 focus:ring" required>
+                    @foreach($penghunis as $penghuni)
+                        <option value="{{ $penghuni->id_penghuni }}" {{ $tagihan->id_penghuni == $penghuni->id_penghuni ? 'selected' : '' }}>
+                            {{ $penghuni->user->name ?? 'Tanpa Nama' }} ({{ $penghuni->user->email ?? '-' }})
                         </option>
                     @endforeach
                 </select>
@@ -31,10 +31,10 @@
             </div>
 
             <div class="mb-6">
-                <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Status Pembayaran</label>
-                <select name="status" id="status" class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring" required>
-                    <option value="Belum Lunas" {{ $tagihan->status == 'Belum Lunas' ? 'selected' : '' }}>Belum Lunas</option>
-                    <option value="Lunas" {{ $tagihan->status == 'Lunas' ? 'selected' : '' }}>Lunas</option>
+                <label for="status_bayar" class="block text-sm font-medium text-gray-700 mb-1">Status Pembayaran</label>
+                <select name="status_bayar" id="status_bayar" class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring" required>
+                    <option value="Belum Lunas" {{ $tagihan->status_bayar == 'Belum Lunas' ? 'selected' : '' }}>Belum Lunas</option>
+                    <option value="Lunas" {{ $tagihan->status_bayar == 'Lunas' ? 'selected' : '' }}>Lunas</option>
                 </select>
             </div>
 
