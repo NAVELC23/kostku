@@ -19,7 +19,10 @@ Route::resource('admin/tagihan', TagihanController::class)->names([
 Route::get('admin/tagihan/export/pdf', [TagihanController::class, 'exportPdf'])->name('admin.tagihan.pdf');
 
 // Route publik
-Route::get('/', function () { return view('welcome'); });
+Route::get('/', function () {
+    return redirect()->route('login');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
