@@ -66,11 +66,12 @@
                 @error('status_penghuni') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
-            <div class="mb-6">
-                <label class="block text-sm font-medium mb-1">Tanggal Keluar (opsional)</label>
-                <input type="date" name="tanggal_keluar" value="{{ old('tanggal_keluar') }}"
-                       class="w-full border rounded px-3 py-2">
-                @error('tanggal_keluar') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
+            <<div class="mb-6">
+                <label class="block text-sm font-medium mb-1">Lama Sewa (bulan)</label>
+                <input type="number" name="lama_sewa" value="{{ old('lama_sewa', 1) }}" min="1" max="36"
+                       class="w-full border rounded px-3 py-2" placeholder="Contoh: 1 untuk 1 bulan">
+                <p class="text-gray-400 text-xs mt-1">Tanggal keluar akan dihitung otomatis dari tanggal masuk + lama sewa.</p>
+                @error('lama_sewa') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <button type="submit"

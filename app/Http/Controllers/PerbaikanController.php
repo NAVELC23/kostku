@@ -11,10 +11,18 @@ class PerbaikanController extends Controller
     // ===== SISI ADMIN =====
 
     // Daftar semua laporan perbaikan
-    public function index()
+    public function index(Request $request)
     {
-        $perbaikans = Perbaikan::with('penghuni.user')->latest()->get();
-        return view('admin.perbaikan.index', compact('perbaikans'));
+        $status = $request->input('status');
+
+        $perbaikans = Perbaikan::with('penghuni.user')
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->latest()
+            ->get();
+
+        return view('admin.perbaikan.index', compact('perbaikans', 'status'));
     }
 
     // Form ubah status (admin)

@@ -10,7 +10,25 @@
     @endif
 
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-        <h3 class="text-lg font-bold text-gray-700 mb-6">Daftar Laporan Perbaikan</h3>
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-bold text-gray-700">Daftar Laporan Perbaikan</h3>
+
+            <!-- Filter Status -->
+            <form method="GET" action="{{ route('admin.perbaikan.index') }}" class="flex gap-2">
+                <select name="status" onchange="this.form.submit()"
+                        class="border border-gray-300 rounded px-3 py-2 text-sm focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+                    <option value="">-- Semua Status --</option>
+                    <option value="Menunggu" {{ $status == 'Menunggu' ? 'selected' : '' }}>Menunggu</option>
+                    <option value="Diproses" {{ $status == 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                    <option value="Selesai" {{ $status == 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                </select>
+                @if(!empty($status))
+                    <a href="{{ route('admin.perbaikan.index') }}" class="bg-gray-400 text-white px-3 py-2 rounded text-sm hover:bg-gray-500">
+                        Reset
+                    </a>
+                @endif
+            </form>
+        </div>
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200 border">

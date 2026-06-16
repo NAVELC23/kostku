@@ -53,10 +53,16 @@
                 <tr class="border-b">
                     <td class="py-2 text-gray-500">Status</td>
                     <td class="py-2">
-                        <span class="px-2 py-1 rounded text-xs
-                            {{ $penghuni->status_penghuni === 'aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                            {{ ucfirst($penghuni->status_penghuni) }}
-                        </span>
+                        @php
+                            $habis = $penghuni->tanggal_keluar && \Carbon\Carbon::parse($penghuni->tanggal_keluar)->isPast();
+                        @endphp
+                        @if($habis)
+                            <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-700">Masa Sewa Habis</span>
+                        @elseif($penghuni->status_penghuni === 'aktif')
+                            <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-700">Aktif</span>
+                        @else
+                            <span class="px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">Nonaktif</span>
+                        @endif
                     </td>
                 </tr>
             </table>

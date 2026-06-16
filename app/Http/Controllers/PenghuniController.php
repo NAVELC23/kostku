@@ -10,10 +10,21 @@ use Illuminate\Http\Request;
 class PenghuniController extends Controller
 {
     // List semua penghuni (admin)
-    public function index()
+     public function index(Request $request)
     {
-        $penghunis = Penghuni::with(['user', 'kamar'])->get();
-        return view('admin.penghuni.index', compact('penghunis'));
+        // Ambil kata kunci pencarian (kalau ada)
+        $cari = $request->input('cari');
+
+        $penghunis = Penghuni::with(['user', 'kamar'])
+            ->when($cari, function ($query) use ($cari) {
+                // Cari berdasarkan nama user yang terkait
+                $query->whereHas('user', function ($q) use ($cari) {
+                    $q->where('name', 'like', '%' . $cari . '%');
+                });
+            })
+            ->get();
+
+        return view('admin.penghuni.index', compact('penghunis', 'cari'));
     }
 
     // Form tambah penghuni (admin)
@@ -32,10 +43,24 @@ class PenghuniController extends Controller
             'id_kamar'        => 'nullable|exists:kamars,id_kamar',
             'tanggal_masuk'   => 'required|date',
             'status_penghuni' => 'required|in:aktif,nonaktif',
-            'tanggal_keluar'  => 'nullable|date|after:tanggal_masuk',
+            'lama_sewa'       => 'required|integer|min:1|max:36',
+        ], [
+            'lama_sewa.required' => 'Lama sewa wajib diisi.',
+            'lama_sewa.min'      => 'Lama sewa minimal 1 bulan.',
         ]);
 
-        Penghuni::create($request->all());
+        // Hitung tanggal keluar otomatis: tanggal masuk + lama sewa (bulan)
+        $tanggalKeluar = \Carbon\Carbon::parse($request->tanggal_masuk)
+                            ->addMonths((int) $request->lama_sewa)
+                            ->format('Y-m-d');
+
+        Penghuni::create([
+            'id_user'         => $request->id_user,
+            'id_kamar'        => $request->id_kamar,
+            'tanggal_masuk'   => $request->tanggal_masuk,
+            'tanggal_keluar'  => $tanggalKeluar,
+            'status_penghuni' => $request->status_penghuni,
+        ]);
 
         return redirect()->route('admin.penghuni.index')
                          ->with('success', 'Penghuni berhasil ditambahkan!');
@@ -58,14 +83,27 @@ class PenghuniController extends Controller
             'id_kamar'        => 'nullable|exists:kamars,id_kamar',
             'tanggal_masuk'   => 'required|date',
             'status_penghuni' => 'required|in:aktif,nonaktif',
-            'tanggal_keluar'  => 'nullable|date|after:tanggal_masuk',
+            'lama_sewa'       => 'required|integer|min:1|max:36',
+        ], [
+            'lama_sewa.required' => 'Lama sewa wajib diisi.',
+            'lama_sewa.min'      => 'Lama sewa minimal 1 bulan.',
         ]);
 
+        $tanggalKeluar = \Carbon\Carbon::parse($request->tanggal_masuk)
+                            ->addMonths((int) $request->lama_sewa)
+                            ->format('Y-m-d');
+
         $penghuni = Penghuni::findOrFail($id);
-        $penghuni->update($request->all());
+        $penghuni->update([
+            'id_user'         => $request->id_user,
+            'id_kamar'        => $request->id_kamar,
+            'tanggal_masuk'   => $request->tanggal_masuk,
+            'tanggal_keluar'  => $tanggalKeluar,
+            'status_penghuni' => $request->status_penghuni,
+        ]);
 
         return redirect()->route('admin.penghuni.index')
-                         ->with('success', 'Data penghuni berhasil diupdate!');
+                         ->with('success', 'Penghuni berhasil diupdate!');
     }
 
     // Hapus penghuni (admin)

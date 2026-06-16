@@ -10,6 +10,21 @@
         </a>
     </div>
 
+    <!-- Kotak Pencarian -->
+    <form method="GET" action="{{ route('admin.penghuni.index') }}" class="mb-6 flex gap-2">
+        <input type="text" name="cari" value="{{ $cari ?? '' }}"
+               placeholder="Cari nama penghuni..."
+               class="border border-gray-300 rounded px-4 py-2 w-full max-w-xs focus:border-green-500 focus:ring focus:ring-green-200 focus:ring-opacity-50">
+        <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+            Cari
+        </button>
+        @if(!empty($cari))
+            <a href="{{ route('admin.penghuni.index') }}" class="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500">
+                Reset
+            </a>
+        @endif
+    </form>
+
     @if(session('success'))
         <div class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4">
             {{ session('success') }}
@@ -23,6 +38,7 @@
                     <th class="px-4 py-3 text-left">Nama</th>
                     <th class="px-4 py-3 text-left">Kamar</th>
                     <th class="px-4 py-3 text-left">Tanggal Masuk</th>
+                    <th class="px-4 py-3 text-left">Tanggal Keluar</th>
                     <th class="px-4 py-3 text-left">Status</th>
                     <th class="px-4 py-3 text-left">Aksi</th>
                 </tr>
@@ -33,11 +49,18 @@
                     <td class="px-4 py-3">{{ $penghuni->user->name ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $penghuni->kamar->nomor_kamar ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $penghuni->tanggal_masuk }}</td>
+                    <td class="px-4 py-3">{{ $penghuni->tanggal_keluar ?? '-' }}</td>
                     <td class="px-4 py-3">
-                        <span class="px-2 py-1 rounded text-xs
-                            {{ $penghuni->status_penghuni === 'aktif' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
-                            {{ ucfirst($penghuni->status_penghuni) }}
-                        </span>
+                        @php
+                            $habis = $penghuni->tanggal_keluar && \Carbon\Carbon::parse($penghuni->tanggal_keluar)->isPast();
+                        @endphp
+                        @if($habis)
+                            <span class="px-2 py-1 rounded text-xs bg-red-100 text-red-700">Masa Sewa Habis</span>
+                        @elseif($penghuni->status_penghuni === 'aktif')
+                            <span class="px-2 py-1 rounded text-xs bg-green-100 text-green-700">Aktif</span>
+                        @else
+                            <span class="px-2 py-1 rounded text-xs bg-gray-100 text-gray-700">Nonaktif</span>
+                        @endif
                     </td>
                     <td class="px-4 py-3 flex gap-2">
                         <a href="{{ route('admin.penghuni.edit', $penghuni->id_penghuni) }}"
@@ -57,7 +80,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="px-4 py-4 text-center text-gray-400">Belum ada data penghuni.</td>
+                    <td colspan="6" class="px-4 py-4 text-center text-gray-400">Belum ada data penghuni.</td>
                 </tr>
                 @endforelse
             </tbody>
