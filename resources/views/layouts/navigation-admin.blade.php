@@ -1,3 +1,4 @@
+
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -29,6 +30,11 @@
 
                     <x-nav-link :href="route('admin.perbaikan.index')" :active="request()->routeIs('admin.perbaikan.*')">
                         {{ __('Perbaikan') }}
+                        @if(($jumlahMenunggu ?? 0) > 0)
+                            <span class="ml-1 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                                {{ $jumlahMenunggu }}
+                            </span>
+                        @endif
                     </x-nav-link>
                 </div>
             </div>
