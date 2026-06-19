@@ -16,7 +16,7 @@
                 <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
                     <span>📊</span> Dashboard
                 </a>
-                <a href="{{ route('tes.kamar.index') }}" class="flex items-center gap-3 px-4 py-3 bg-emerald-800 text-white font-semibold rounded-lg shadow">
+                <a href="{{ route('admin.kamar.index') }}" class="flex items-center gap-3 px-4 py-3 bg-emerald-800 text-white font-semibold rounded-lg shadow">
                     <span>🔑</span> Kelola Kamar
                 </a>
                 <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
@@ -38,7 +38,7 @@
                     <p class="text-sm text-gray-500 mt-1">Perbarui informasi spesifikasi atau ubah status ketersediaan kamar.</p>
                 </div>
 
-                <form action="{{ route('tes.kamar.update', $kamar->id_kamar) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
+                <form action="{{ route('admin.kamar.update', $kamar->id_kamar) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
                     @method('PUT')
                     
@@ -86,7 +86,7 @@
                     </div>
 
                     <div class="flex justify-end space-x-3 pt-4 border-t border-gray-100">
-                        <a href="{{ route('tes.kamar.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-3 rounded-xl transition text-sm font-medium">
+                        <a href="{{ route('admin.kamar.index') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-3 rounded-xl transition text-sm font-medium">
                             Batal
                         </a>
                         <button type="submit" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition text-sm font-semibold shadow-md shadow-emerald-100">
