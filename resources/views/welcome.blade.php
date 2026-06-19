@@ -56,9 +56,9 @@
     </section>
 
     <!-- FOOTER -->
-    <footer class="bg-emerald-950 px-6 py-8 text-center">
-        <p class="text-emerald-200 text-sm">© 2026 KostKu — Sistem Manajemen Kos</p>
-        <p class="text-emerald-400 text-xs mt-1">Dibuat untuk tugas Web Framework</p>
+    <footer class="bg-emerald-800 px-6 py-8 text-center">
+        <p class="text-emerald-200 text-sm">© 2026 KostKu</p>
+         <p class="text-emerald-200 text-sm">Sistem Manajemen Kos</p>
     </footer>
 
 </body>
