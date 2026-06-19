@@ -13,7 +13,7 @@
         <div class="min-h-screen flex flex-col md:flex-row">
 
             <!-- KIRI hitam -->
-        <div class="w-full md:w-1/2 min-h-[40vh] md:min-h-screen bg-gray-900 flex flex-col items-center justify-center p-8 md:p-12 text-center">
+        <div class="w-full md:w-1/2 min-h-[40vh] md:min-h-screen bg-emerald-900 flex flex-col items-center justify-center p-8 md:p-12 text-center">
             <h1 class="text-white text-5xl md:text-7xl font-bold mb-4 md:mb-6">Kostku.</h1>
             <p class="text-gray-300 text-base md:text-lg max-w-md">Cari kos nyaman dan kelola semuanya dengan mudah, semua ada di Kostku.</p>
         </div>
