@@ -1,50 +1,10 @@
 <?php
-<<<<<<< HEAD
- 
-=======
->>>>>>> 65f3b272f3070848d8aac8ee6f725a25e66ead72
+
 namespace App\Http\Controllers;
- 
+
 use App\Models\Kamar;
 use App\Models\Penghuni;
 use App\Models\Tagihan;
-<<<<<<< HEAD
-use Illuminate\Support\Facades\DB;
- 
-class DashboardController extends Controller
-{
-   public function index()
-   {
-       // --- Kartu statistik ---
-       $totalKamar     = Kamar::count();
-       $kamarTersedia  = Kamar::where('status', 'Tersedia')->count();
-       $kamarTerisi    = Kamar::where('status', 'Terisi')->count();
-       $totalPenghuni  = Penghuni::count();
- 
-       // Pendapatan = total tagihan yang sudah LUNAS
-       $totalPendapatan = Tagihan::where('status_bayar', 'Lunas')
-           ->sum('nominal_tagihan');
- 
-       // --- Data grafik pendapatan per bulan ---
-       $pendapatanPerBulan = Tagihan::where('status_bayar', 'Lunas')
-           ->select('bulan', DB::raw('SUM(nominal_tagihan) as total'))
-           ->groupBy('bulan')
-           ->get();
- 
-       $labelBulan     = $pendapatanPerBulan->pluck('bulan');
-       $dataPendapatan = $pendapatanPerBulan->pluck('total');
- 
-       return view('admin.dashboard', compact(
-           'totalKamar',
-           'kamarTersedia',
-           'kamarTerisi',
-           'totalPenghuni',
-           'totalPendapatan',
-           'labelBulan',
-           'dataPendapatan'
-       ));
-   }
-=======
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -156,5 +116,4 @@ class DashboardController extends Controller
             'kamarStatusData', 'revenueData', 'trendData'
         ));
     }
->>>>>>> 65f3b272f3070848d8aac8ee6f725a25e66ead72
 }
