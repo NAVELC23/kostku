@@ -4,36 +4,23 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('admin.dashboard') }}">
-                        
+                    <a href="{{ route('penghuni.dashboard') }}" class="font-bold text-emerald-700 text-lg">
+                        KostKu.
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                    <x-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('penghuni.dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('admin.kamar.index')" :active="request()->routeIs('admin.kamar.*')">
-                        {{ __('Kamar') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.penghuni.index')" :active="request()->routeIs('admin.penghuni.*')">
-                        {{ __('Penghuni') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('admin.tagihan.index')" :active="request()->routeIs('admin.tagihan.*')">
+                    <x-nav-link :href="route('penghuni.tagihan.index')" :active="request()->routeIs('penghuni.tagihan.*')">
                         {{ __('Tagihan') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('admin.perbaikan.index')" :active="request()->routeIs('admin.perbaikan.*')">
+                    <x-nav-link :href="route('penghuni.perbaikan.index')" :active="request()->routeIs('penghuni.perbaikan.*')">
                         {{ __('Perbaikan') }}
-                        @if(($jumlahMenunggu ?? 0) > 0)
-                            <span class="ml-1 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                                {{ $jumlahMenunggu }}
-                            </span>
-                        @endif
                     </x-nav-link>
                 </div>
             </div>
@@ -83,29 +70,16 @@
     <!-- Responsive Navigation Menu (mobile) -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+            <x-responsive-nav-link :href="route('penghuni.dashboard')" :active="request()->routeIs('penghuni.dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('admin.kamar.index')" :active="request()->routeIs('admin.kamar.*')">
-                {{ __('Kamar') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('admin.penghuni.index')" :active="request()->routeIs('admin.penghuni.*')">
-                {{ __('Penghuni') }}
-            </x-responsive-nav-link>
-
-            <x-responsive-nav-link :href="route('admin.tagihan.index')" :active="request()->routeIs('admin.tagihan.*')">
+            <x-responsive-nav-link :href="route('penghuni.tagihan.index')" :active="request()->routeIs('penghuni.tagihan.*')">
                 {{ __('Tagihan') }}
             </x-responsive-nav-link>
 
-            <x-responsive-nav-link :href="route('admin.perbaikan.index')" :active="request()->routeIs('admin.perbaikan.*')">
+            <x-responsive-nav-link :href="route('penghuni.perbaikan.index')" :active="request()->routeIs('penghuni.perbaikan.*')">
                 {{ __('Perbaikan') }}
-                @if(($jumlahMenunggu ?? 0) > 0)
-                    <span class="ml-1 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                        {{ $jumlahMenunggu }}
-                    </span>
-                @endif
             </x-responsive-nav-link>
         </div>
 
