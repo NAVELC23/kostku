@@ -47,4 +47,7 @@ Route::middleware(['auth', 'role:penghuni'])->prefix('penghuni')->name('penghuni
     Route::post('perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
 });
 
+// Rute untuk download Excel buatan Theo
+Route::get('/tagihan/export-excel', [TagihanController::class, 'exportExcel'])->name('admin.tagihan.excel');
+
 require __DIR__.'/auth.php';

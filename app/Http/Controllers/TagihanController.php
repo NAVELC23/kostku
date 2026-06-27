@@ -6,6 +6,8 @@ use App\Models\Tagihan;
 use App\Models\Penghuni;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\TagihanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TagihanController extends Controller
 {
@@ -117,5 +119,10 @@ class TagihanController extends Controller
             'status' => 'success',
             'data' => $tagihan
         ], 200);
+    }
+        // 10. EKSPOR DATA TAGIHAN KE EXCEL
+    public function exportExcel()
+    {
+        return Excel::download(new TagihanExport, 'Laporan_Tagihan_Kostku.xlsx');
     }
 }
