@@ -17,7 +17,13 @@ class Kamar extends Model
         'tipe',
         'harga',
         'status',
-        'fasilitas',
         'foto',
+        // 'fasilitas' dihapus karena sudah dipindah ke tabel terpisah
     ];
+
+    // Relasi Many-to-Many ke Fasilitas
+    public function fasilitas()
+    {
+        return $this->belongsToMany(Fasilitas::class, 'fasilitas_kamar', 'kamar_id', 'fasilitas_id');
+    }
 }

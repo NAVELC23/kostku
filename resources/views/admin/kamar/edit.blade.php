@@ -70,8 +70,17 @@
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700">Fasilitas Kamar</label>
-                        <input type="text" name="fasilitas" value="{{ $kamar->fasilitas }}" placeholder="WiFi, AC, Kamar Mandi Dalam" class="w-full mt-1 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition">
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Fasilitas Kamar</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3 p-4 border border-gray-200 rounded-xl bg-gray-50/50">
+                            @foreach($fasilitas as $item)
+                                <label class="inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="fasilitas[]" value="{{ $item->id }}" 
+                                        {{ $kamar->fasilitas->contains($item->id) ? 'checked' : '' }}
+                                        class="w-4 h-4 text-emerald-600 bg-white border-gray-300 rounded focus:ring-emerald-500 focus:ring-2">
+                                    <span class="ml-2 text-sm text-gray-700">{{ $item->nama_fasilitas }}</span>
+                                </label>
+                            @endforeach
+                        </div>
                     </div>
 
                     <div>
