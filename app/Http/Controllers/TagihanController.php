@@ -6,6 +6,8 @@ use App\Models\Tagihan;
 use App\Models\Penghuni;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use App\Exports\TagihanExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TagihanController extends Controller
 {
@@ -96,5 +98,31 @@ class TagihanController extends Controller
             : collect();
 
         return view('penghuni.tagihan.index', compact('tagihans'));
+    }
+
+    // 9. FITUR THEO: API UNTUK MENGAMBIL DATA TAGIHAN BERDASARKAN ID
+    public function apiShow($id)
+    {
+        // Mengambil data tagihan spesifik beserta data user/penghuninya
+        $tagihan = Tagihan::with('user')->find($id);
+
+        // Jika data tagihan tidak ditemukan di database
+        if (!$tagihan) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Data tagihan tidak ditemukan'
+            ], 404);
+        }
+
+        // Jika ditemukan, kembalikan data dalam format JSON yang rapi
+        return response()->json([
+            'status' => 'success',
+            'data' => $tagihan
+        ], 200);
+    }
+        // 10. EKSPOR DATA TAGIHAN KE EXCEL
+    public function exportExcel()
+    {
+        return Excel::download(new TagihanExport, 'Laporan_Tagihan_Kostku.xlsx');
     }
 }

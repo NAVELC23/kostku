@@ -66,7 +66,9 @@
                                     {{ $kamar->status }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">{{ $kamar->fasilitas ?? '-' }}</td>
+                            <td class="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                                {{ $kamar->fasilitas->pluck('nama_fasilitas')->implode(', ') ?: '-' }}
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
                                 <a href="{{ route('admin.kamar.edit', $kamar->id_kamar) }}"
                                    class="text-amber-600 hover:text-amber-700 font-semibold transition">Edit</a>

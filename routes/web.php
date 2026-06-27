@@ -28,6 +28,9 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('tagihan/export/pdf', [TagihanController::class, 'exportPdf'])->name('tagihan.pdf');
 
     Route::resource('kamar', KamarController::class);
+    Route::get('fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
+    Route::post('fasilitas', [FasilitasController::class, 'store'])->name('fasilitas.store');
+    Route::delete('fasilitas/{id}', [FasilitasController::class, 'destroy'])->name('fasilitas.destroy');
     Route::resource('penghuni', PenghuniController::class);
     Route::resource('tagihan', TagihanController::class);
 
@@ -46,5 +49,8 @@ Route::middleware(['auth', 'role:penghuni'])->prefix('penghuni')->name('penghuni
     Route::get('perbaikan/create', [PerbaikanController::class, 'create'])->name('perbaikan.create');
     Route::post('perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
 });
+
+// Rute untuk download Excel buatan Theo
+Route::get('/tagihan/export-excel', [TagihanController::class, 'exportExcel'])->name('admin.tagihan.excel');
 
 require __DIR__.'/auth.php';
