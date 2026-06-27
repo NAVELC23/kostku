@@ -16,7 +16,7 @@
 
                     <div>
                         <label class="block text-sm font-semibold text-gray-700">Nomor Kamar</label>
-                        <input type="text" name="nomor_kamar" placeholder="Contoh: A-101" class="w-full mt-1 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition" required>
+                        <input type="text" name="nomor_kamar" placeholder="Contoh: 101" class="w-full mt-1 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition" required>
                     </div>
 
                     <div>

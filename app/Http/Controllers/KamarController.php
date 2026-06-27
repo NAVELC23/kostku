@@ -25,7 +25,7 @@ class KamarController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nomor_kamar' => 'required|string',
+            'nomor_kamar' => 'required|string|unique:kamars,nomor_kamar',
             'tipe'        => 'required|string',
             'harga'       => 'required|numeric',
             'status'      => 'required|string',
@@ -71,7 +71,7 @@ class KamarController extends Controller
         $kamar = Kamar::findOrFail($id);
 
         $request->validate([
-            'nomor_kamar' => 'required|string',
+            'nomor_kamar' => 'required|string|unique:kamars,nomor_kamar,' . $id . ',id_kamar',
             'tipe'        => 'required|string',
             'harga'       => 'required|numeric',
             'status'      => 'required|string',
