@@ -24,11 +24,11 @@ class FasilitasSeeder extends Seeder
         ];
 
         foreach ($fasilitas as $item) {
-            DB::table('fasilitas')->insert([
-                'nama_fasilitas' => $item,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+            // updateOrInsert: tidak akan dobel kalau seeder dijalankan ulang
+            DB::table('fasilitas')->updateOrInsert(
+                ['nama_fasilitas' => $item],
+                ['updated_at' => now(), 'created_at' => now()]
+            );
         }
     }
 }

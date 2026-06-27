@@ -1,38 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Tambah Kamar Baru</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="bg-gray-50 font-sans antialiased">
-    <div class="flex min-h-screen">
-        <aside class="w-64 bg-emerald-900 text-white flex flex-col shadow-xl">
-            <div class="p-5 text-2xl font-bold tracking-wider border-b border-emerald-800 flex items-center gap-2">
-                <span>🏢</span> KosKu
-            </div>
-            <nav class="flex-1 p-4 space-y-2">
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
-                    <span>📊</span> Dashboard
-                </a>
-                <a href="{{ route('admin.kamar.index') }}" class="flex items-center gap-3 px-4 py-3 bg-emerald-800 text-white font-semibold rounded-lg shadow">
-                    <span>🔑</span> Kelola Kamar
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
-                    <span>👥</span> Kelola Penghuni
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
-                    <span>💵</span> Tagihan
-                </a>
-                <a href="#" class="flex items-center gap-3 px-4 py-3 text-emerald-100 rounded-lg hover:bg-emerald-800 transition">
-                    <span>🛠️</span> Fasilitas
-                </a>
-            </nav>
-        </aside>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800">Tambah Kamar Baru</h2>
+    </x-slot>
 
-        <main class="flex-1 p-8 flex items-center justify-center">
-            <div class="w-full max-w-2xl bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+    <div class="py-12">
+        <div class="max-w-2xl mx-auto px-6">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                 <div class="mb-6 border-b border-gray-100 pb-4">
                     <h2 class="text-2xl font-bold text-gray-800">Tambah Kamar Baru</h2>
                     <p class="text-sm text-gray-500 mt-1">Masukkan spesifikasi kamar sesuai data kos fisik.</p>
@@ -40,7 +13,7 @@
 
                 <form action="{{ route('admin.kamar.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
-                    
+
                     <div>
                         <label class="block text-sm font-semibold text-gray-700">Nomor Kamar</label>
                         <input type="text" name="nomor_kamar" placeholder="Contoh: A-101" class="w-full mt-1 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition" required>
@@ -95,7 +68,6 @@
                     </div>
                 </form>
             </div>
-        </main>
+        </div>
     </div>
-</body>
-</html>
+</x-app-layout>

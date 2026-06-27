@@ -7,6 +7,7 @@ use App\Http\Controllers\KamarController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerbaikanController;
+use App\Http\Controllers\FasilitasController;
 
 // Route publik
 Route::get('/', function () {

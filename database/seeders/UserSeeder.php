@@ -13,18 +13,23 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name'     => 'Admin KostKu',
-            'email'    => 'admin@kostku.com',
-            'password' => bcrypt('password'),
-            'role'     => 'admin',
-        ]);
+        // firstOrCreate: kalau user sudah ada (berdasarkan email), tidak dibuat ulang
+        User::firstOrCreate(
+            ['email' => 'admin@kostku.com'],
+            [
+                'name'     => 'Admin KostKu',
+                'password' => bcrypt('password'),
+                'role'     => 'admin',
+            ]
+        );
 
-        User::create([
-            'name'     => 'Penghuni Test',
-            'email'    => 'penghuni@kostku.com',
-            'password' => bcrypt('password'),
-            'role'     => 'penghuni',
-        ]);
+        User::firstOrCreate(
+            ['email' => 'penghuni@kostku.com'],
+            [
+                'name'     => 'Penghuni Test',
+                'password' => bcrypt('password'),
+                'role'     => 'penghuni',
+            ]
+        );
     }
 }

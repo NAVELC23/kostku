@@ -1,12 +1,11 @@
-
 <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('admin.dashboard') }}">
-                     
+                    <a href="{{ route('admin.dashboard') }}" class="font-bold text-emerald-700 text-lg">
+                        KostKu.
                     </a>
                 </div>
 
@@ -18,6 +17,10 @@
 
                     <x-nav-link :href="route('admin.kamar.index')" :active="request()->routeIs('admin.kamar.*')">
                         {{ __('Kamar') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('admin.fasilitas.index')" :active="request()->routeIs('admin.fasilitas.*')">
+                        {{ __('Fasilitas') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('admin.penghuni.index')" :active="request()->routeIs('admin.penghuni.*')">
@@ -90,6 +93,10 @@
 
             <x-responsive-nav-link :href="route('admin.kamar.index')" :active="request()->routeIs('admin.kamar.*')">
                 {{ __('Kamar') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('admin.fasilitas.index')" :active="request()->routeIs('admin.fasilitas.*')">
+                {{ __('Fasilitas') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('admin.penghuni.index')" :active="request()->routeIs('admin.penghuni.*')">

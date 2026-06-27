@@ -15,14 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // User test (anti-duplicate)
+        User::firstOrCreate(
+            ['email' => 'test@example.com'],
+            [
+                'name'     => 'Test User',
+                'password' => bcrypt('password'),
+            ]
+        );
 
         $this->call(UserSeeder::class);
+
+        // Fasilitas HARUS sebelum Kamar, karena Kamar melampirkan fasilitas
+        $this->call(FasilitasSeeder::class);
         $this->call(KamarSeeder::class);
     }
 }
