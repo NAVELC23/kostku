@@ -50,6 +50,7 @@ Route::middleware(['auth', 'role:penghuni'])->prefix('penghuni')->name('penghuni
     Route::get('perbaikan', [PerbaikanController::class, 'indexPenghuni'])->name('perbaikan.index');
     Route::get('perbaikan/create', [PerbaikanController::class, 'create'])->name('perbaikan.create');
     Route::post('perbaikan', [PerbaikanController::class, 'store'])->name('perbaikan.store');
+    Route::delete('perbaikan/{id}', [PerbaikanController::class, 'destroyPenghuni'])->name('perbaikan.destroy');
 });
 
 // Rute untuk download Excel buatan Theo

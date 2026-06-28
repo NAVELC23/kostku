@@ -103,4 +103,26 @@ class PerbaikanController extends Controller
         return redirect()->route('penghuni.perbaikan.index')
                          ->with('success', 'Laporan kerusakan berhasil dikirim!');
     }
+
+    // Hapus laporan perbaikan milik penghuni sendiri
+    public function destroyPenghuni($id)
+    {
+        $penghuni = Penghuni::where('id_user', auth()->id())->first();
+
+        if (!$penghuni) {
+            return back()->with('error', 'Data penghuni kamu belum terdaftar.');
+        }
+
+        $perbaikan = Perbaikan::findOrFail($id);
+
+        // Keamanan: pastikan laporan ini milik penghuni yang login
+        if ($perbaikan->id_penghuni !== $penghuni->id_penghuni) {
+            abort(403, 'Kamu tidak boleh menghapus laporan milik orang lain.');
+        }
+
+        $perbaikan->delete();
+
+        return redirect()->route('penghuni.perbaikan.index')
+                         ->with('success', 'Laporan perbaikan berhasil dihapus.');
+    }
 }
