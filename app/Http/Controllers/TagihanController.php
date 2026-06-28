@@ -63,8 +63,6 @@ class TagihanController extends Controller
             ]];
         });
 
-        dd($hargaKamar);
-
         return view('admin.tagihan.edit', compact('tagihan', 'penghunis', 'hargaKamar'));
     }
 
