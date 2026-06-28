@@ -14,9 +14,23 @@
                 <form action="{{ route('admin.kamar.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
                     @csrf
 
+                    {{-- Tampilkan semua error validasi --}}
+                    @if ($errors->any())
+                        <div class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm">
+                            <ul class="list-disc list-inside space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <div>
                         <label class="block text-sm font-semibold text-gray-700">Nomor Kamar</label>
-                        <input type="text" name="nomor_kamar" placeholder="Contoh: 101" class="w-full mt-1 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition" required>
+                        <input type="text" name="nomor_kamar" value="{{ old('nomor_kamar') }}" placeholder="Contoh: 101" class="w-full mt-1 p-3 border @error('nomor_kamar') border-red-400 @else border-gray-200 @enderror rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition" required>
+                        @error('nomor_kamar')
+                            <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div>

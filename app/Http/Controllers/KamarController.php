@@ -32,6 +32,9 @@ class KamarController extends Controller
             'fasilitas'   => 'nullable|array', // Ubah validasi menjadi array
             'fasilitas.*' => 'exists:fasilitas,id', // Pastikan id fasilitas valid
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'nomor_kamar.unique'   => 'Nomor kamar ini sudah dipakai. Gunakan nomor lain.',
+            'nomor_kamar.required' => 'Nomor kamar wajib diisi.',
         ]);
 
         // Ambil semua input KECUALI fasilitas (karena fasilitas masuk ke tabel pivot)
@@ -78,6 +81,9 @@ class KamarController extends Controller
             'fasilitas'   => 'nullable|array', // Ubah menjadi array
             'fasilitas.*' => 'exists:fasilitas,id', // Validasi id fasilitas
             'foto'        => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ], [
+            'nomor_kamar.unique'   => 'Nomor kamar ini sudah dipakai. Gunakan nomor lain.',
+            'nomor_kamar.required' => 'Nomor kamar wajib diisi.',
         ]);
 
         // Ambil semua data KECUALI fasilitas
