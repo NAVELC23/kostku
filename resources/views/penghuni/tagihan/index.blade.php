@@ -24,17 +24,17 @@
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-bold">
                                 Rp {{ number_format($tagihan->nominal_tagihan, 0, ',', '.') }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @if($tagihan->status == 'Lunas')
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                        Sudah Lunas
-                                    </span>
-                                @else
-                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 animate-pulse">
-                                        Harap Segera Bayar
-                                    </span>
-                                @endif
-                            </td>
+                           <td class="px-6 py-4 whitespace-nowrap">
+                            @if($tagihan->status_bayar == 'Lunas')
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                    Sudah Lunas
+                                </span>
+                            @else
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                    Harap Segera Bayar
+                                </span>
+                            @endif
+                        </td>
                         </tr>
                     @empty
                         <tr>
