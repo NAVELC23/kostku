@@ -36,6 +36,7 @@
             <thead class="bg-green-600 text-white">
                 <tr>
                     <th class="px-4 py-3 text-left">Nama</th>
+                    <th class="px-4 py-3 text-left">No. Telepon</th>
                     <th class="px-4 py-3 text-left">Kamar</th>
                     <th class="px-4 py-3 text-left">Tanggal Masuk</th>
                     <th class="px-4 py-3 text-left">Tanggal Keluar</th>
@@ -47,6 +48,7 @@
                 @forelse($penghunis as $penghuni)
                 <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3">{{ $penghuni->user->name ?? '-' }}</td>
+                    <td class="px-4 py-3">{{ $penghuni->user->no_telp ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $penghuni->kamar->nomor_kamar ?? '-' }}</td>
                     <td class="px-4 py-3">{{ $penghuni->tanggal_masuk }}</td>
                     <td class="px-4 py-3">{{ $penghuni->tanggal_keluar ?? '-' }}</td>
