@@ -53,7 +53,7 @@
             <div class="mb-4">
                 <label class="block text-sm font-medium mb-1">Tanggal Masuk</label>
                 <input type="date" name="tanggal_masuk" value="{{ old('tanggal_masuk') }}"
-                       class="w-full border rounded px-3 py-2">
+                       min="{{ date('Y-m-d') }}" class="w-full border rounded px-3 py-2">
                 @error('tanggal_masuk') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 

@@ -1,14 +1,11 @@
 <?php
-
 namespace App\Http\Controllers;
-
 use App\Models\Kamar;
 use App\Models\Penghuni;
 use App\Models\Tagihan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
 class DashboardController extends Controller
 {
     public function index()
@@ -25,33 +22,25 @@ class DashboardController extends Controller
             'data'   => [$kamarTersedia, $kamarTerisi],
         ];
 
-        // Map nama bulan Indonesia -> angka
-        $namaBulanMap = [
-            'Januari' => 1, 'Februari' => 2, 'Maret' => 3,
-            'April'   => 4, 'Mei'      => 5, 'Juni'  => 6,
-            'Juli'    => 7, 'Agustus'  => 8, 'September' => 9,
-            'Oktober' => 10, 'November' => 11, 'Desember' => 12,
-        ];
-
         $namaBulanAngka = ['','Jan','Feb','Mar','Apr','Mei','Jun',
-                               'Jul','Agu','Sep','Okt','Nov','Des'];
+                           'Jul','Agu','Sep','Okt','Nov','Des'];
 
-        // Ambil semua tagihan, lalu parse kolom `bulan`
+        // Ambil semua tagihan
         $semuaTagihan = Tagihan::all(['bulan', 'nominal_tagihan', 'status_bayar']);
 
-        // Kelompokkan per bulan-tahun dari kolom `bulan`
+        // Kelompokkan per bulan-tahun — format baru: "2026-06"
         $grouped = [];
         foreach ($semuaTagihan as $t) {
-            // Format: "Juni 2026" -> pisah jadi ["Juni", "2026"]
-            $parts = explode(' ', trim($t->bulan));
+            $parts = explode('-', trim($t->bulan));
             if (count($parts) < 2) continue;
 
-            $namaBln  = $parts[0];
-            $tahun    = $parts[1];
-            $bulanInt = $namaBulanMap[$namaBln] ?? null;
+            $tahun    = $parts[0];
+            $bulanInt = (int) $parts[1];
+
             if (!$bulanInt) continue;
 
             $key = $tahun . '-' . str_pad($bulanInt, 2, '0', STR_PAD_LEFT);
+
             if (!isset($grouped[$key])) {
                 $grouped[$key] = [
                     'label'       => $namaBulanAngka[$bulanInt] . ' ' . $tahun,
@@ -72,25 +61,31 @@ class DashboardController extends Controller
         // Urutkan berdasarkan key (YYYY-MM)
         ksort($grouped);
 
-        // Ambil 6 bulan terakhir saja
-        $grouped = array_slice($grouped, -6, 6, true);
+        // Buat kerangka 6 bulan terakhir agar bulan kosong tetap muncul
+        // Kerangka dinamis dari bulan pertama sampai bulan terakhir di database
+        $kerangka = [];
 
-        // Susun label + data
+        if (!empty($grouped)) {
+            $keyPertama  = array_key_first($grouped); // bulan terlama
+            $keyTerakhir = array_key_last($grouped);  // bulan terbaru
+
+            $current = Carbon::createFromFormat('Y-m', $keyPertama)->startOfMonth();
+            $akhir   = Carbon::createFromFormat('Y-m', $keyTerakhir)->startOfMonth();
+
+            while ($current->lte($akhir)) {
+                $bulanInt = (int) $current->format('n');
+                $tahun    = $current->format('Y');
+                $key      = $tahun . '-' . str_pad($bulanInt, 2, '0', STR_PAD_LEFT);
+                $kerangka[$key] = $namaBulanAngka[$bulanInt] . ' ' . $tahun;
+                $current->addMonth();
+            }
+        }
+
         $bulanLabel   = [];
         $bulanRevenue = [];
         $trendLabels  = [];
         $trendLunas   = [];
         $trendBelum   = [];
-
-        // Buat daftar 6 bulan terakhir sebagai kerangka (agar bulan kosong tetap muncul)
-        $kerangka = [];
-        for ($i = 5; $i >= 0; $i--) {
-            $date       = now()->subMonths($i);
-            $bulanInt   = (int) $date->format('n');
-            $tahun      = $date->format('Y');
-            $key        = $tahun . '-' . str_pad($bulanInt, 2, '0', STR_PAD_LEFT);
-            $kerangka[$key] = $namaBulanAngka[$bulanInt] . ' ' . $tahun;
-        }
 
         foreach ($kerangka as $key => $label) {
             $trendLabels[]  = $label;

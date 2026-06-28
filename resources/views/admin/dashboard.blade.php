@@ -46,7 +46,7 @@
 
                 {{-- Chart 2: Bar Pendapatan Bulanan --}}
                 <div class="bg-white rounded-lg shadow p-6">
-                    <p class="font-semibold text-gray-700 mb-4">Pendapatan Bulanan (6 Bulan Terakhir)</p>
+                    <p class="font-semibold text-gray-700 mb-4">Pendapatan Bulanan</p>
                     <div style="height: 250px;">
                         <canvas id="revenueChart"></canvas>
                     </div>
@@ -56,7 +56,7 @@
 
             {{-- Chart 3: Line Tren Tagihan --}}
             <div class="bg-white rounded-lg shadow p-6">
-                <p class="font-semibold text-gray-700 mb-4">Tren Tagihan (6 Bulan Terakhir)</p>
+                <p class="font-semibold text-gray-700 mb-4">Tren Tagihan </p>
                 <div style="height: 250px;">
                     <canvas id="trendChart"></canvas>
                 </div>

@@ -44,12 +44,8 @@ class PenghuniController extends Controller
             'tanggal_masuk'   => 'required|date',
             'status_penghuni' => 'required|in:aktif,nonaktif',
             'lama_sewa'       => 'required|integer|min:1|max:36',
-        ], [
-            'lama_sewa.required' => 'Lama sewa wajib diisi.',
-            'lama_sewa.min'      => 'Lama sewa minimal 1 bulan.',
         ]);
 
-        // Hitung tanggal keluar otomatis: tanggal masuk + lama sewa (bulan)
         $tanggalKeluar = \Carbon\Carbon::parse($request->tanggal_masuk)
                             ->addMonths((int) $request->lama_sewa)
                             ->format('Y-m-d');
@@ -62,8 +58,14 @@ class PenghuniController extends Controller
             'status_penghuni' => $request->status_penghuni,
         ]);
 
+        // Otomatis ubah status kamar jadi Terisi
+        if ($request->id_kamar) {
+            Kamar::where('id_kamar', $request->id_kamar)
+                ->update(['status' => 'Terisi']);
+        }
+
         return redirect()->route('admin.penghuni.index')
-                         ->with('success', 'Penghuni berhasil ditambahkan!');
+                        ->with('success', 'Penghuni berhasil ditambahkan!');
     }
 
     // Form edit penghuni (admin)
@@ -84,9 +86,6 @@ class PenghuniController extends Controller
             'tanggal_masuk'   => 'required|date',
             'status_penghuni' => 'required|in:aktif,nonaktif',
             'lama_sewa'       => 'required|integer|min:1|max:36',
-        ], [
-            'lama_sewa.required' => 'Lama sewa wajib diisi.',
-            'lama_sewa.min'      => 'Lama sewa minimal 1 bulan.',
         ]);
 
         $tanggalKeluar = \Carbon\Carbon::parse($request->tanggal_masuk)
@@ -94,6 +93,8 @@ class PenghuniController extends Controller
                             ->format('Y-m-d');
 
         $penghuni = Penghuni::findOrFail($id);
+        $kamarLama = $penghuni->id_kamar;
+
         $penghuni->update([
             'id_user'         => $request->id_user,
             'id_kamar'        => $request->id_kamar,
@@ -102,18 +103,43 @@ class PenghuniController extends Controller
             'status_penghuni' => $request->status_penghuni,
         ]);
 
+        // Kalau kamar diganti, bebaskan kamar lama
+        if ($kamarLama && $kamarLama != $request->id_kamar) {
+            Kamar::where('id_kamar', $kamarLama)
+                ->update(['status' => 'Tersedia']);
+        }
+
+        // Set kamar baru jadi Terisi
+        if ($request->id_kamar) {
+            Kamar::where('id_kamar', $request->id_kamar)
+                ->update(['status' => 'Terisi']);
+        }
+
+        // Kalau status penghuni nonaktif, bebaskan kamarnya
+        if ($request->status_penghuni === 'nonaktif' && $request->id_kamar) {
+            Kamar::where('id_kamar', $request->id_kamar)
+                ->update(['status' => 'Tersedia']);
+        }
+
         return redirect()->route('admin.penghuni.index')
-                         ->with('success', 'Penghuni berhasil diupdate!');
+                        ->with('success', 'Penghuni berhasil diupdate!');
     }
 
     // Hapus penghuni (admin)
     public function destroy($id)
     {
         $penghuni = Penghuni::findOrFail($id);
+
+        // Bebaskan kamar saat penghuni dihapus
+        if ($penghuni->id_kamar) {
+            Kamar::where('id_kamar', $penghuni->id_kamar)
+                ->update(['status' => 'Tersedia']);
+        }
+
         $penghuni->delete();
 
         return redirect()->route('admin.penghuni.index')
-                         ->with('success', 'Penghuni berhasil dihapus!');
+                        ->with('success', 'Penghuni berhasil dihapus!');
     }
 
     // Dashboard penghuni (role:penghuni)

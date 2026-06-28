@@ -20,6 +20,11 @@ class Penghuni extends Model
         'tanggal_keluar',
     ];
 
+    protected $casts = [
+        'tanggal_masuk'  => 'date:Y-m-d',
+        'tanggal_keluar' => 'date:Y-m-d',
+    ];
+    
     // Relasi ke User
     public function user()
     {

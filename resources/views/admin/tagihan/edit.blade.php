@@ -20,14 +20,35 @@
                 </select>
             </div>
 
+            {{-- Bulan --}}
             <div class="mb-4">
                 <label for="bulan" class="block text-sm font-medium text-gray-700 mb-1">Periode Bulan Tagihan</label>
-                <input type="text" name="bulan" id="bulan" value="{{ $tagihan->bulan }}" class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring" required>
+                <select name="bulan" id="bulan" class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring" required>
+                    @php
+                        $penghuni = $tagihan->penghuni;
+                        $tanggalMasuk = \Carbon\Carbon::parse($penghuni->tanggal_masuk);
+                        $bulanSekarang = \Carbon\Carbon::now();
+                    @endphp
+                    @while($tanggalMasuk->lte($bulanSekarang))
+                        <option value="{{ $tanggalMasuk->format('Y-m') }}"
+                            {{ $tagihan->bulan == $tanggalMasuk->format('Y-m') ? 'selected' : '' }}>
+                            {{ $tanggalMasuk->translatedFormat('F Y') }}
+                        </option>
+                        @php $tanggalMasuk->addMonth() @endphp
+                    @endwhile
+                </select>
             </div>
 
+            {{-- Nominal --}}
             <div class="mb-4">
                 <label for="nominal_tagihan" class="block text-sm font-medium text-gray-700 mb-1">Nominal Tagihan (Rp)</label>
-                <input type="number" name="nominal_tagihan" id="nominal_tagihan" value="{{ $tagihan->nominal_tagihan }}" class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring" required>
+                <input type="number" name="nominal_tagihan" id="nominal_tagihan"
+                    value="{{ $tagihan->nominal_tagihan }}"
+                    class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring"
+                    min="1" step="1" required>
+                @error('nominal_tagihan')
+                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                @enderror
             </div>
 
             <div class="mb-6">

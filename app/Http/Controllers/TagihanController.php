@@ -22,33 +22,50 @@ class TagihanController extends Controller
     // 2. CREATE
     public function create()
     {
-        // Ambil daftar penghuni untuk dropdown
-        $penghunis = Penghuni::with('user')->get();
-        return view('admin.tagihan.create', compact('penghunis'));
-    }
+        $penghunis = Penghuni::with('user', 'kamar')->get();
 
+        $hargaKamar = $penghunis->mapWithKeys(function ($p) {
+            return [$p->id_penghuni => [
+                'harga'          => $p->kamar->harga ?? 0,
+                'tanggal_masuk'  => $p->tanggal_masuk,
+                'tanggal_keluar' => $p->tanggal_keluar, // tambah ini
+            ]];
+        });
+
+        return view('admin.tagihan.create', compact('penghunis', 'hargaKamar'));
+    }
     // 3. STORE
     public function store(Request $request)
     {
         $request->validate([
             'id_penghuni'     => 'required|exists:penghunis,id_penghuni',
-            'bulan'           => 'required|string',
-            'nominal_tagihan' => 'required|numeric|min:0',
+            'bulan'           => 'required|date_format:Y-m',
+            'nominal_tagihan' => 'required|numeric|min:1',
             'status_bayar'    => 'required|in:Belum Lunas,Lunas',
         ]);
 
         Tagihan::create($request->all());
-
         return redirect()->route('admin.tagihan.index')
-                         ->with('success', 'Tagihan berhasil dibuat!');
+            ->with('success', 'Tagihan berhasil dibuat!');
     }
 
     // 4. EDIT
     public function edit($id)
     {
         $tagihan = Tagihan::findOrFail($id);
-        $penghunis = Penghuni::with('user')->get();
-        return view('admin.tagihan.edit', compact('tagihan', 'penghunis'));
+        $penghunis = Penghuni::with('user', 'kamar')->get();
+
+        $hargaKamar = $penghunis->mapWithKeys(function ($p) {
+            return [$p->id_penghuni => [
+                'harga' => $p->kamar->harga ?? 0,
+                'tanggal_masuk' => $p->tanggal_masuk,
+                'tanggal_keluar' => $p->tanggal_keluar,
+            ]];
+        });
+
+        dd($hargaKamar);
+
+        return view('admin.tagihan.edit', compact('tagihan', 'penghunis', 'hargaKamar'));
     }
 
     // 5. UPDATE
@@ -56,16 +73,15 @@ class TagihanController extends Controller
     {
         $request->validate([
             'id_penghuni'     => 'required|exists:penghunis,id_penghuni',
-            'bulan'           => 'required|string',
-            'nominal_tagihan' => 'required|numeric|min:0',
+            'bulan'           => 'required|date_format:Y-m',
+            'nominal_tagihan' => 'required|numeric|min:1',
             'status_bayar'    => 'required|in:Belum Lunas,Lunas',
         ]);
 
         $tagihan = Tagihan::findOrFail($id);
         $tagihan->update($request->all());
-
         return redirect()->route('admin.tagihan.index')
-                         ->with('success', 'Tagihan berhasil diupdate!');
+            ->with('success', 'Tagihan berhasil diupdate!');
     }
 
     // 6. DESTROY
