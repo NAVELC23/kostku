@@ -31,7 +31,7 @@
         @endif
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
+
             {{-- Bagian Kiri: Form Tambah Fasilitas --}}
             <div class="md:col-span-1">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden sticky top-8">
@@ -77,7 +77,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900">
                                         {{ $item->nama_fasilitas }}
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-3">
+                                        {{-- Tombol Edit: buka modal --}}
+                                        <button type="button"
+                                                onclick="bukaModalEdit({{ $item->id }}, '{{ $item->nama_fasilitas }}')"
+                                                class="text-amber-600 hover:text-amber-700 font-semibold transition">
+                                            Edit
+                                        </button>
+
                                         <form action="{{ route('admin.fasilitas.destroy', $item->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Yakin ingin menghapus fasilitas {{ $item->nama_fasilitas }}? Fasilitas ini juga akan otomatis terhapus dari data kamar yang menggunakannya.')">
                                             @csrf
                                             @method('DELETE')
@@ -102,4 +109,48 @@
 
     </div>
 </div>
+
+{{-- Modal Edit Fasilitas --}}
+<div id="modalEditFasilitas" class="hidden fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-md p-6">
+        <h3 class="font-bold text-gray-800 text-lg mb-4">Edit Nama Fasilitas</h3>
+
+        <form id="formEditFasilitas" method="POST">
+            @csrf
+            @method('PUT')
+
+            <label class="block text-sm font-semibold text-gray-700">Nama Fasilitas</label>
+            <input type="text" name="nama_fasilitas" id="inputNamaFasilitas"
+                   class="w-full mt-2 p-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-emerald-200 focus:border-emerald-600 outline-none transition"
+                   required>
+
+            <div class="flex justify-end gap-3 mt-6">
+                <button type="button" onclick="tutupModalEdit()"
+                        class="px-4 py-2 rounded-xl text-sm font-semibold text-gray-600 hover:bg-gray-100 transition">
+                    Batal
+                </button>
+                <button type="submit"
+                        class="px-4 py-2 rounded-xl text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition shadow-md shadow-emerald-100">
+                    Simpan Perubahan
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function bukaModalEdit(id, namaLama) {
+        const form = document.getElementById('formEditFasilitas');
+        const input = document.getElementById('inputNamaFasilitas');
+
+        form.action = `{{ url('admin/fasilitas') }}/${id}`;
+        input.value = namaLama;
+
+        document.getElementById('modalEditFasilitas').classList.remove('hidden');
+    }
+
+    function tutupModalEdit() {
+        document.getElementById('modalEditFasilitas').classList.add('hidden');
+    }
+</script>
 @endsection

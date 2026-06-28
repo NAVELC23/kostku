@@ -108,4 +108,20 @@ class KamarController extends Controller
 
         return redirect()->route('admin.kamar.index')->with('success', 'Data kamar berhasil diperbarui!');
     }
+    public function destroy($id)
+    {
+        $kamar = Kamar::findOrFail($id);
+
+        // Hapus foto dari storage kalau ada, supaya tidak jadi file sampah
+        if ($kamar->foto) {
+            Storage::disk('public')->delete($kamar->foto);
+        }
+
+        // Hapus relasi fasilitas di tabel pivot dulu sebelum hapus kamarnya
+        $kamar->fasilitas()->detach();
+
+        $kamar->delete();
+
+        return redirect()->route('admin.kamar.index')->with('success', 'Kamar #' . $kamar->nomor_kamar . ' berhasil dihapus!');
+    }
 }

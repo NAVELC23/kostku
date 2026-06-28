@@ -31,7 +31,23 @@ class FasilitasController extends Controller
         return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas baru berhasil ditambahkan!');
     }
 
-    // Menghapus fasilitas
+    public function update(Request $request, $id)
+    {
+        $fasilitas = Fasilitas::findOrFail($id);
+
+        $request->validate([
+            'nama_fasilitas' => 'required|string|max:255|unique:fasilitas,nama_fasilitas,' . $fasilitas->id,
+        ], [
+            'nama_fasilitas.unique' => 'Fasilitas ini sudah ada di dalam daftar.',
+            'nama_fasilitas.required' => 'Nama fasilitas tidak boleh kosong.'
+        ]);
+
+        $fasilitas->update([
+            'nama_fasilitas' => $request->nama_fasilitas
+        ]);
+
+        return redirect()->route('admin.fasilitas.index')->with('success', 'Fasilitas berhasil diperbarui!');
+    }
     public function destroy($id)
     {
         $fasilitas = Fasilitas::findOrFail($id);

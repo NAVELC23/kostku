@@ -31,6 +31,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('kamar', KamarController::class);
     Route::get('fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');
     Route::post('fasilitas', [FasilitasController::class, 'store'])->name('fasilitas.store');
+    Route::put('fasilitas/{id}', [FasilitasController::class, 'update'])->name('fasilitas.update');
     Route::delete('fasilitas/{id}', [FasilitasController::class, 'destroy'])->name('fasilitas.destroy');
     Route::resource('penghuni', PenghuniController::class);
     Route::resource('tagihan', TagihanController::class);
