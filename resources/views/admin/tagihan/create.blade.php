@@ -33,9 +33,9 @@
             <div class="mb-4">
                 <label for="nominal_tagihan" class="block text-sm font-medium text-gray-700 mb-1">Nominal Tagihan (Rp)</label>
                 <input type="number" name="nominal_tagihan" id="nominal_tagihan"
-                    class="w-full rounded-md shadow-sm border-gray-300 focus:border-green-500 focus:ring"
-                    min="1" step="1" required>
-                <p class="text-xs text-gray-400 mt-1">Otomatis diisi dari harga kamar, bisa diubah manual.</p>
+                    class="w-full rounded-md shadow-sm border-gray-300 bg-gray-100 cursor-not-allowed focus:ring-0"
+                    min="1" step="1" readonly required>
+                <p class="text-xs text-gray-400 mt-1">Otomatis diisi dari harga kamar penghuni.</p>
                 @error('nominal_tagihan') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
 
