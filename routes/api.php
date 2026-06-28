@@ -1,16 +1,16 @@
 <?php
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TagihanController; // Import Controller kamu
+use App\Http\Controllers\TagihanController;
 use App\Http\Controllers\Api\KamarController;
 
-// Semua rute di dalam grup ini wajib membawa Bearer Token Sanctum agar aman
-Route::middleware('auth:sanctum')->group(function () {
-    
-    // Endpoint API Tagihan milik Theo yang akan dipakai oleh Nathan
-    Route::get('/tagihan/{id}', [TagihanController::class, 'apiShow']);
-    
-});
-
+// Publik
 Route::get('/kamar', [KamarController::class, 'index']);
+
+// Tagihan penghuni
+Route::get('/tagihan/penghuni', [TagihanController::class, 'apiPenghuni']);
+
+// Sanctum
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/tagihan/{id}', [TagihanController::class, 'apiShow']);
+});

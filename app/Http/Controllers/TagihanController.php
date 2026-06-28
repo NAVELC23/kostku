@@ -134,9 +134,37 @@ class TagihanController extends Controller
             'data' => $tagihan
         ], 200);
     }
-        // 10. EKSPOR DATA TAGIHAN KE EXCEL
-    public function exportExcel()
-    {
-        return Excel::download(new TagihanExport, 'Laporan_Tagihan_Kostku.xlsx');
-    }
+            // 10. API TAGIHAN UNTUK PENGHUNI YANG SEDANG LOGIN
+        public function apiPenghuni()
+        {
+            if (!auth()->check()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Silakan login terlebih dahulu.',
+                    'data'    => [],
+                ], 401);
+            }
+
+            $penghuni = Penghuni::where('id_user', auth()->id())->first();
+
+            if (!$penghuni) {
+                return response()->json([
+                    'success' => false,
+                    'data'    => [],
+                ]);
+            }
+
+            $tagihans = Tagihan::where('id_penghuni', $penghuni->id_penghuni)->get();
+
+            return response()->json([
+                'success' => true,
+                'data'    => $tagihans,
+            ]);
+        }
+
+        // 11. EKSPOR DATA TAGIHAN KE EXCEL
+        public function exportExcel()
+        {
+            return Excel::download(new TagihanExport, 'Laporan_Tagihan_Kostku.xlsx');
+        }
 }
