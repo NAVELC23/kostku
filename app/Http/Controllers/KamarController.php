@@ -65,7 +65,7 @@ class KamarController extends Controller
     // Fungsi publik biarkan saja untuk saat ini
     public function publik()
     {
-        $kamars = \App\Models\Kamar::all();
+        $kamars = \App\Models\Kamar::with('fasilitas')->get();
         return view('kamar-publik', compact('kamars'));
     }
 

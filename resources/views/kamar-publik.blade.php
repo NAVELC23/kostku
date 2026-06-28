@@ -41,7 +41,14 @@
                             </span>
                         </div>
                         <p class="text-sm text-gray-500 mb-1">Tipe: {{ $kamar->tipe }}</p>
-                        <p class="text-sm text-gray-500 mb-3">Fasilitas: {{ $kamar->fasilitas ?? '-' }}</p>
+                        <p class="text-sm text-gray-500 mb-3">
+                            Fasilitas:
+                            @if($kamar->fasilitas->count() > 0)
+                                {{ $kamar->fasilitas->pluck('nama_fasilitas')->join(', ') }}
+                            @else
+                                -
+                            @endif
+                        </p>
                         <p class="text-emerald-700 font-bold text-lg">Rp {{ number_format($kamar->harga, 0, ',', '.') }}<span class="text-sm font-normal text-gray-500">/bulan</span></p>
                     </div>
                 </div>
