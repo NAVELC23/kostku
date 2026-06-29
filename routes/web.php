@@ -9,12 +9,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PerbaikanController;
 use App\Http\Controllers\FasilitasController;
 
-// Route publik
 Route::get('/', function () {
+    if (auth()->check()) {
+        return auth()->user()->role === 'admin'
+            ? redirect()->route('admin.penghuni.index')
+            : redirect()->route('penghuni.dashboard');
+    }
     return view('welcome');
 });
 Route::get('/kamar', [KamarController::class, 'publik'])->name('kamar.publik');
-// Profile (semua user login)
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
